@@ -15,11 +15,15 @@ requirejs.config({
 
 
 
-requirejs(['session', 'path', 'fs', 'http', 'md5'],
-        function (Session, path, fs, http, md5) {
+
+
+requirejs(['session', 'path', 'fs', 'http', 'md5', 'server'],
+        function (Session, path, fs, http, md5, Server) {
+
+            //global var
+            ledServer = new Server();
 
             var PORT = 8082;
-
             /**
              * @exports RequestService
              * 
@@ -44,6 +48,8 @@ requirejs(['session', 'path', 'fs', 'http', 'md5'],
                     //unknown, unauthorized handler
                     this.handleError();
                 }
+
+
             }
 
             RequestService.prototype.handleUpload = function () {
@@ -55,11 +61,9 @@ requirejs(['session', 'path', 'fs', 'http', 'md5'],
                         this.response.end('<!doctype html><html><head><title>413</title></head><body>413: Request Entity Too Large</body></html>');
                     }
                 }.bind(this));
-
                 this.request.on('end', function () {
                     try {
                         this.receivedData = JSON.parse(this.body);
-
                     } catch (e) {
                         console.log("received data error " + e.toString());
                         this.handleError();
@@ -68,25 +72,21 @@ requirejs(['session', 'path', 'fs', 'http', 'md5'],
 
                     //Unique session ID: todo: login+pass
                     var reqHash = md5(JSON.stringify(this.receivedData));
-
                     var session = this.sessions[reqHash];
                     if (session !== undefined) {
 
 
                     } else {
                         //session is undefined = create new session
-                        session = new Session();
+                        session = new Session(ledServer);
                         this.sessions[reqHash] = session;
                     }
                     //session exists and is in progress
 
                     session.handleQuery(this.receivedData, this.response);
-
-
                 }.bind(this));
                 return;
             };
-
             RequestService.prototype.handleFileGet = function () {
                 //Simple content of files in "data" folder
                 var buffer = new Buffer(1000000);
@@ -114,7 +114,6 @@ requirejs(['session', 'path', 'fs', 'http', 'md5'],
                     this.handleError();
                 }
             };
-
             /** 
              * Handler when request is invalid
              * @returns {undefined}
@@ -124,16 +123,15 @@ requirejs(['session', 'path', 'fs', 'http', 'md5'],
                 this.response.statusMessage = "Forbidden";
                 this.response.end();
             };
-
-
             /**
              * Static array of all Sessions
              * @type Array
              */
             RequestService.sessions = [];
             RequestService.prototype.sessions = [];
-
             activeRequests = [];
+
+
 
             var server = http.createServer(function (request, response) {
                 activeRequests.push(new RequestService(request, response));
@@ -144,5 +142,4 @@ requirejs(['session', 'path', 'fs', 'http', 'md5'],
                 //Callback triggered when server is successfully listening. Hurray!
                 console.log("Server listening on: http://localhost:%s", PORT);
             });
-
         });
