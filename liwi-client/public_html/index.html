@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="shortcut icon" href="">
+
+        <title>LiWI client</title>
+
+
+        <style type="text/css">
+
+
+        </style>
+
+        <script type="text/javascript" src="class/serverconnector.js"></script>
+        <script type="text/javascript" src="class/ui.js"></script>
+
+    </head>
+
+    <body>
+
+        <div id="output"></div>
+        <hr class="invis">
+
+        <script type="text/javascript">
+
+            serverConnector = new ServerConnector("http://localhost:8082");
+            ui = new UI(serverConnector);
+
+        </script>
+
+    </body>
+</html>
