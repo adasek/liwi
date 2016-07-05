@@ -10,34 +10,13 @@ var requirejs = require('requirejs');
 requirejs.config({
     nodeRequire: require,
     enforceDefine: false,
-    baseUrl: "./",
-    paths: {
-        "uinputelement": "../client/public_html/class/uinputelement",
-        "uinputelementfactory": "../client/public_html/class/uinputelementfactory",
-        "uinputelementbutton": "../client/public_html/class/uinputelementbutton",
-        "uinputelementfloat": "../client/public_html/class/uinputelementfloat",
-        "uinputelementint": "../client/public_html/class/uinputelementint",
-        "uinputelementnum": "../client/public_html/class/uinputelementnum",
-        "uinputelementinterval": "../client/public_html/class/uinputelementinterval",
-        "uinputelementstring": "../client/public_html/class/uinputelementstring",
-        "uinputelementtable": "../client/public_html/class/uinputelementtable",
-        "uinputelementprocessnode": "../client/public_html/class/uinputelementprocessnode",
-        "uinputelementselect": "../client/public_html/class/uinputelementselect",
-        "uinputoptions": "../client/public_html/class/uinputoptions",
-        "ee": "../client/public_html/class/ee",
-        text: 'node_modules/requirejs-text/text',
-        json: 'node_modules/requirejs-plugins/src/json',
-        "srv_outputelement": "class/srv_outputelement",
-        "task": "class/task",
-        "programinput": "class/programinput",
-        "inputpart": "class/inputpart"
-    }
+    baseUrl: "./"
 });
 
 
 
-requirejs(['session', 'path', 'fs', 'http'],
-        function (Session, path, fs, http) {
+requirejs(['session', 'path', 'fs', 'http', 'md5'],
+        function (Session, path, fs, http, md5) {
 
             var PORT = 8082;
 

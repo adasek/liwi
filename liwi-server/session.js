@@ -8,38 +8,42 @@
  */
 
 
-define(["rgb-led"],
-        function (rgbled) {
+define(['LEDnet'], function (lednet) {
 
 
 
-            /**
-             * @exports Session
-             * 
-             * @class
-             * @classdesc One task = run of underlying program with set of parameters
-             * 
-             * @constructor
-             * @param {Object} options 
-             * @returns {Task}
-             */
-            var Session = function () {
+    /**
+     * @exports Session
+     * 
+     * @class
+     * @classdesc One task = run of underlying program with set of parameters
+     * 
+     * @constructor
+     * @param {Object} options 
+     * @returns {Task}
+     */
+    var Session = function () {
+
+        var LED = new lednet('192.168.7.215', 5577);
+        LED.turnOn();
+        LED.setBrightness(255);
+        LED.setBrightness(50);
+        LED.setBrightness(22);
+        LED.turnOff();
+
+    };
+
+    Session.prototype.handleQuery = function (request, response) {
+
+        response.writeHead(200, 'OK', {'Content-Type': 'application/json'});
+        response.write(JSON.stringify(
+                {"hello": "world"}
+        ));
+        response.end("");
+        return;
+    };
 
 
 
-            };
-
-            Session.prototype.handleQuery = function (request, response) {
-
-                response.writeHead(200, 'OK', {'Content-Type': 'application/json'});
-                response.write(JSON.stringify(
-                        {"hello": "world"}
-                ));
-                response.end("");
-                return;
-            };
-
-
-
-            return Session;
-        });
+    return Session;
+});

@@ -11,9 +11,9 @@
   "author": "Adam Benda <adam@adasek.cz>",
   "contributors": [],
   "dependencies": {
+    "md5": "2.1.0",
     "requirejs": "2.2.0",
     "requirejs-plugins": "1.0.2",
-    "requirejs-text": "2.0.12",
-    "rgb-led": "0.0.4"
+    "requirejs-text": "2.0.12"
   }
 }
