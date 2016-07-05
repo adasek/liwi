@@ -27,9 +27,6 @@ define(['LEDnet'], function (lednet) {
         var LED = new lednet('192.168.7.215', 5577);
         LED.turnOn();
         LED.setBrightness(255);
-        LED.setBrightness(50);
-        LED.setBrightness(22);
-        LED.turnOff();
 
     };
 
